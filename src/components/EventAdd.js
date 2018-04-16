@@ -59,7 +59,7 @@ class EventAdd extends Component {
             style={styles.dateSet}
             value={this.props.date}
             placeholder={this.props.date}
-            placeholdercolor={'#888'}
+            customStyles={{placeholderText: {color: '#000'}}}
             onDateChange={value => this.props.updateEvent({ prop: 'date', value })}
           />
         </Element>

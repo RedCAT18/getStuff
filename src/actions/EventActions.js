@@ -5,6 +5,7 @@ import {
   UPDATE_EVENT,
   CREATE_EVENT,
   CREATE_FAIL,
+  EVENT_FETCH_SUCCESS
 } from './types';
 
 export const updateEvent = ({ prop, value }) => {
@@ -25,6 +26,22 @@ export const createEvent = ({ title, description, date, amount }) => {
     })
     .catch(error => {
       dispatch({ type: CREATE_FAIL, payload: error });
+    });
+  };
+};
+
+
+export const eventFetch = () => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/events`)
+    .on('value', snapshot => {
+      console.log(snapshot.val());
+      dispatch({
+        type: EVENT_FETCH_SUCCESS,
+        payload: snapshot.val()
+      });
     });
   };
 };
