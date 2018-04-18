@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Card, Element, Button } from './common';
 import EventForm from './EventForm';
-import { updateEvent } from '../actions';
+import { updateEvent, updatedEventSave } from '../actions';
 
 class EventEdit extends Component {
   componentWillMount() {
@@ -18,7 +18,9 @@ class EventEdit extends Component {
   }
 
   onButtonPress() {
-    console.log('update');
+    const { title, description, date, amount } = this.props;
+
+    this.props.updatedEventSave({ title, description, date, amount, uid: this.props.event.uid });
   }
 
   render() {
@@ -74,5 +76,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  updateEvent
+  updateEvent,
+  updatedEventSave,
 })(EventEdit);

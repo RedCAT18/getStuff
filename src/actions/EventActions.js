@@ -6,6 +6,7 @@ import {
   CREATE_EVENT,
   CREATE_FAIL,
   EVENT_FETCH_SUCCESS,
+  UPDATED_EVENT_SAVE,
 } from './types';
 
 export const updateEvent = ({ prop, value }) => {
@@ -33,16 +34,28 @@ export const createEvent = ({ title, description, date, amount }) => {
 
 
 export const eventFetch = () => {
-  const { currentUser } = firebase.auth();
   // console.log(currentUser.email);
   return (dispatch) => {
     firebase.database().ref('/events')
     .on('value', snapshot => {
-      // console.log(snapshot.val());
+      console.log(snapshot.val());
       dispatch({
         type: EVENT_FETCH_SUCCESS,
         payload: snapshot.val()
       });
+    });
+  };
+};
+
+export const updatedEventSave = ({ title, description, date, amount, uid }) => {
+  const { currentUser } = firebase.auth();
+  console.log(uid);
+  return (dispatch) => {
+    firebase.database().ref(`/events/${uid}`)
+    .set({ title, description, date, amount: Number(amount), user: currentUser.uid })
+    .then(() => {
+      dispatch({ type: UPDATED_EVENT_SAVE });
+      Actions.main({ type: 'reset' });
     });
   };
 };

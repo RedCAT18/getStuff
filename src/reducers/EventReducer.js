@@ -3,6 +3,7 @@ import {
   UPDATE_EVENT,
   CREATE_EVENT,
   CREATE_FAIL,
+  UPDATED_EVENT_SAVE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -26,7 +27,9 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_EVENT:
       return { ...INITIAL_STATE };
     case CREATE_FAIL:
-      return { ...state, message: action.payload };  
+      return { ...state, message: action.payload };
+    case UPDATED_EVENT_SAVE: 
+      return INITIAL_STATE;
     default:
       return state;
   }

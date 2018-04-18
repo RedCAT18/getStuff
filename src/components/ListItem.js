@@ -14,18 +14,17 @@ class ListItem extends Component {
   render() {
     const { currentUser } = firebase.auth();
     const { title, description, date, amount, user } = this.props.event;
-    console.log(currentUser.uid, user);
 
     return (
       <Card>
         <Element>
           <View style={styles.outbox}>
             { currentUser.uid === user ? (
-              <Text 
-                style={styles.edit}
-                onPress={this.onButtonPress.bind(this)}
-              >Edit</Text>
-            ) : (null) }
+                <Text 
+                  style={styles.edit}
+                  onPress={this.onButtonPress.bind(this)}
+                >Edit</Text>
+              ) : (null) }
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.desc}>{description}</Text>
             <Text style={styles.date}>Due date : {date}</Text>
@@ -47,6 +46,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: '#1f4e5e',
+    position: 'relative',
     ...Platform.select({
       ios: {
         shadowColor: '#1e495a',
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: 5,
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   title: {
     margin: 5,
