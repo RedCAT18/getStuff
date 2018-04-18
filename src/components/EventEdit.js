@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
+import { ImageBackground, StyleSheet } from 'react-native';
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import { ImageBackground, Text, View, StyleSheet } from 'react-native';
+
 import { Card, Element, Button } from './common';
-import { updateEvent, createEvent } from '../actions';
-
 import EventForm from './EventForm';
+import { updateEvent } from '../actions';
 
-class EventAdd extends Component {
-
-  onButtonPress() {
-    const { title, description, date, amount } = this.props;
-    this.props.createEvent({ title, description, date, amount });
+class EventEdit extends Component {
+  componentWillMount() {
+    _.each(this.props.event, (value, prop) => {
+      if (prop === 'amount') {
+        value = value.toString();
+      }
+      this.props.updateEvent({ prop, value });
+    });
   }
 
-  messageRender() {
-    if (this.props.message) {
-      return (
-        <View>
-          <Text style={styles.message}>{this.props.message}</Text>
-        </View>
-      );
-    }
+  onButtonPress() {
+    console.log('update');
   }
 
   render() {
@@ -32,13 +30,18 @@ class EventAdd extends Component {
       <EventForm {...this.props} />
       <Card style={styles.input}>
 
-        {this.messageRender()}
+        {/* {this.messageRender()} */}
 
         <Element>
           <Button
             onPress={this.onButtonPress.bind(this)}
           >
-            Add
+            Update
+          </Button>
+          <Button
+            onPress={()=> console.log('delete')}
+          >
+            Delete
           </Button>
         </Element>
       </Card>
@@ -65,11 +68,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { title, description, date, amount, available, message } = state.EventForm;
+  const { title, description, date, amount, available, message } = state.event;
+  
   return { title, description, date, amount, available, message };
 };
 
-export default connect(mapStateToProps, { 
-  updateEvent, 
-  createEvent 
-})(EventAdd);
+export default connect(mapStateToProps, {
+  updateEvent
+})(EventEdit);

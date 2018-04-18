@@ -4,6 +4,7 @@ import { Scene, Stack, Router, Actions } from 'react-native-router-flux';
 import Login from './components/Login';
 import EventList from './components/EventList';
 import EventAdd from './components/EventAdd';
+import EventEdit from './components/EventEdit';
 
 const RouterComponent = () => {
   return (
@@ -26,6 +27,11 @@ const RouterComponent = () => {
             key="eventAdd"
             component={EventAdd}
             title="Add New Event"
+          />
+          <Scene
+            key="eventEdit"
+            component={EventEdit}
+            title="Edit Event"
           />
         </Scene>
       </Stack>

@@ -5,7 +5,7 @@ import {
   UPDATE_EVENT,
   CREATE_EVENT,
   CREATE_FAIL,
-  EVENT_FETCH_SUCCESS
+  EVENT_FETCH_SUCCESS,
 } from './types';
 
 export const updateEvent = ({ prop, value }) => {
@@ -18,14 +18,15 @@ export const updateEvent = ({ prop, value }) => {
 export const createEvent = ({ title, description, date, amount }) => {
   const { currentUser } = firebase.auth();
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/events`)
-    .push({ title, description, date, amount: Number(amount) })
+    firebase.database().ref(`/events`)
+    .push({ title, description, date, amount: Number(amount), user: currentUser.uid })
     .then(() => {
       dispatch({ type: CREATE_EVENT });
       Actions.main();
     })
-    .catch(error => {
-      dispatch({ type: CREATE_FAIL, payload: error });
+    .catch((error) => {
+      console.log(error);
+      dispatch({ type: CREATE_FAIL, payload: 'Fail to create new event.' });
     });
   };
 };
@@ -33,11 +34,11 @@ export const createEvent = ({ title, description, date, amount }) => {
 
 export const eventFetch = () => {
   const { currentUser } = firebase.auth();
-
+  // console.log(currentUser.email);
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/events`)
+    firebase.database().ref('/events')
     .on('value', snapshot => {
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
       dispatch({
         type: EVENT_FETCH_SUCCESS,
         payload: snapshot.val()

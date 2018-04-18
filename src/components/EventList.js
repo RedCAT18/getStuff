@@ -7,18 +7,7 @@ import { ListView, ImageBackground, StyleSheet } from 'react-native';
 import ListItem from './ListItem';
 
 class EventList extends Component {
-  componentWillMount() {
-    // console.log(this.props);
-    //{ '-LA2zI8e6jJNAivX5b2f': 
-    //   { amount: 8,
-    //     date: '2018-04-18',
-    //     description: 'test123',
-    //     title: 'test' },
-    //  '-LA2zgdNwoqmuPBUWb4y': 
-    //   { amount: 6,
-    //     date: '2018-04-16',
-    //     description: 'asdfg',
-    //     title: 'test2' } }
+  componentWillMount() {    
     this.props.eventFetch();
     this.createDataSource(this.props);
   }
