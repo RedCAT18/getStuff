@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { ListView, ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { eventFetch } from '../actions';
-import { ListView, ImageBackground, StyleSheet } from 'react-native';
+
 
 import ListItem from './ListItem';
 
@@ -20,7 +21,6 @@ class EventList extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    console.log(ds);
     this.dataSource = ds.cloneWithRows(events);
   }
 

@@ -3,11 +3,15 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { Card, Element, Button } from './common';
+import { Card, Element, Button, Confirm } from './common';
 import EventForm from './EventForm';
-import { updateEvent, updatedEventSave } from '../actions';
+import { updateEvent, updatedEventSave, eventDelete } from '../actions';
 
 class EventEdit extends Component {
+  state = {
+    showModal: false
+  }
+
   componentWillMount() {
     _.each(this.props.event, (value, prop) => {
       if (prop === 'amount') {
@@ -21,6 +25,16 @@ class EventEdit extends Component {
     const { title, description, date, amount } = this.props;
 
     this.props.updatedEventSave({ title, description, date, amount, uid: this.props.event.uid });
+  }
+
+  onAccept() {
+    const { uid } = this.props.event;
+
+    this.props.eventDelete({ uid });
+  }
+
+  onDecline() {
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -41,11 +55,19 @@ class EventEdit extends Component {
             Update
           </Button>
           <Button
-            onPress={()=> console.log('delete')}
+            onPress={() => this.setState({ showModal: !this.state.showModal })}
           >
             Delete
           </Button>
         </Element>
+
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onAccept.bind(this)}
+          onDecline={this.onDecline.bind(this)}
+        >
+          Do you really want to cancel this event? 
+        </Confirm>
       </Card>
       </ImageBackground>
     );
@@ -78,4 +100,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   updateEvent,
   updatedEventSave,
+  eventDelete
 })(EventEdit);

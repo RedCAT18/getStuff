@@ -19,7 +19,7 @@ export const updateEvent = ({ prop, value }) => {
 export const createEvent = ({ title, description, date, amount }) => {
   const { currentUser } = firebase.auth();
   return (dispatch) => {
-    firebase.database().ref(`/events`)
+    firebase.database().ref('/events')
     .push({ title, description, date, amount: Number(amount), user: currentUser.uid })
     .then(() => {
       dispatch({ type: CREATE_EVENT });
@@ -34,11 +34,10 @@ export const createEvent = ({ title, description, date, amount }) => {
 
 
 export const eventFetch = () => {
-  // console.log(currentUser.email);
+  // console.log(currentUser.email)
   return (dispatch) => {
-    firebase.database().ref('/events')
+    firebase.database().ref('events')
     .on('value', snapshot => {
-      console.log(snapshot.val());
       dispatch({
         type: EVENT_FETCH_SUCCESS,
         payload: snapshot.val()
@@ -59,3 +58,14 @@ export const updatedEventSave = ({ title, description, date, amount, uid }) => {
     });
   };
 };
+
+export const eventDelete = ({ uid }) => {
+  return () => {
+    firebase.database().ref(`/events/${uid}`)
+    .remove()
+    .then(() => {
+      Actions.main({ type: 'reset' });
+    });
+  };
+};
+

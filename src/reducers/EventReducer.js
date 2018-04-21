@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_EVENT:
-      return { ...state, [action.payload.prop] : action.payload.value };
+      return { ...state, [action.payload.prop]: action.payload.value };
     case CREATE_EVENT:
       return { ...INITIAL_STATE };
     case CREATE_FAIL:

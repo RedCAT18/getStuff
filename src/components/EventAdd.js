@@ -48,7 +48,7 @@ class EventAdd extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: {  
     flex: 1,
     backgroundColor: '#fff',
   },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { title, description, date, amount, available, message } = state.EventForm;
+  const { title, description, date, amount, available, message } = state.event;
   return { title, description, date, amount, available, message };
 };
 
