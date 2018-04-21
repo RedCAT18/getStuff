@@ -10,3 +10,7 @@ export const CREATE_FAIL = 'create_fail';
 export const EVENT_FETCH_SUCCESS = 'event_fetch_success';
 
 export const UPDATED_EVENT_SAVE = 'updated_event_save';
+export const EVENT_RESERVATION = 'event_reservation';
+export const EVENT_RESERVATION_ERROR = 'event_reservation_error';
+
+export const CLOSE_MODAL = 'close_modal';

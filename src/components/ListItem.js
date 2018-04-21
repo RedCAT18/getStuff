@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Platform } from 'react-native'; 
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'; 
 import firebase from 'firebase';
 import { Card, Element, Button } from './common';
 
-class ListItem extends Component {
+import { eventReservation, eventReservationError } from '../actions';
 
+class ListItem extends Component {
+  onRsvButtonPress() {
+    const { currentUser } = firebase.auth();
+    const { title, description, date, uid, amount, member, available } = this.props.event;
+    console.log(member.indexOf(currentUser));
+    if (member && member.indexOf(currentUser.uid) !== -1) {
+      //이미 예약했을 시엔 에러메시지 출력.
+      this.props.eventReservationError();
+      return false;
+    }
+    
+    this.props.eventReservation({ title, description, date, uid, member, amount, available });
+  }
 
   onButtonPress() {
     Actions.eventEdit({ event: this.props.event });
   }
+
 
   render() {
     const { currentUser } = firebase.auth();
@@ -29,7 +44,14 @@ class ListItem extends Component {
             <Text style={styles.desc}>{description}</Text>
             <Text style={styles.date}>Due date : {date}</Text>
             <Text style={styles.amount}>Available Seat: {amount}</Text>
-            <Button>Reservation</Button>
+
+            { currentUser.uid !== user ? (
+              <Button
+                onPress={this.onRsvButtonPress.bind(this)}
+              >Reservation</Button>
+            ) :
+              (null)
+            }
           </View>
         </Element>
       </Card>
@@ -94,7 +116,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     alignSelf: 'flex-end',
     paddingRight: 20,
+  },
+  message: {
+    color: 'red',
+    fontWeight: '700',
+    alignSelf: 'center'
   }
 });
 
-export default ListItem;
+const mapStateToProps = (state) => {
+  const { title, description, date, uid, amount, member, available } = state.event;
+
+  return { title, description, date, uid, amount, member, available };
+};
+
+export default connect(mapStateToProps, { eventReservation, eventReservationError })(ListItem);

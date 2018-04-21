@@ -9,8 +9,8 @@ import EventForm from './EventForm';
 class EventAdd extends Component {
 
   onButtonPress() {
-    const { title, description, date, amount } = this.props;
-    this.props.createEvent({ title, description, date, amount });
+    const { title, description, date, member, amount, available } = this.props;
+    this.props.createEvent({ title, description, date, member, amount, available });
   }
 
   messageRender() {
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { title, description, date, amount, available, message } = state.event;
-  return { title, description, date, amount, available, message };
+  const { title, description, date, amount, member, available, message } = state.event;
+  return { title, description, date, amount, member, available, message };
 };
 
 export default connect(mapStateToProps, { 

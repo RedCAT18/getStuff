@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { title, description, date, amount, available, message } = state.event;
+  const { title, description, date, amount, member, available, message } = state.event;
   
-  return { title, description, date, amount, available, message };
+  return { title, description, date, amount, member, available, message };
 };
 
 export default connect(mapStateToProps, {
